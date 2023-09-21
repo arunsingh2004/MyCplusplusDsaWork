@@ -21,8 +21,8 @@ class Node{
 template<typename T>
  class Hashtable{
   Node<T> ** table;
-  int cs;
-  int ts;
+  int cs;//total entries that have been inserted
+  int ts;//size of table
 string key;
  int hashfucn(string key){
    int idx =0;
@@ -34,10 +34,10 @@ string key;
      return idx;
  }
   void rehash(){
-      //save the ptr to  the oldtable and we will do Insertion innto newtable
+      //save the ptr to  the oldtable and we will do Insertion into newtable
       Node<T>** oldtable = table;
    int oldTs = ts;
-    cs =0;
+    int cs =0;
    //increment the table size
    int ts = ( 2*ts +1);
     table = new Node<T>*[ts];//you should make it prime
@@ -46,7 +46,7 @@ string key;
       table[i]=NULL;
     }
     
-    // copy elements of oldTable into newTable 
+    // copy elements from oldTable into newTable 
      for(int i=0; i<oldTs; i++){
        Node<T> * temp = oldtable[i];
 
@@ -86,7 +86,7 @@ string key;
 
         Node<T>* n = new Node <T>(key ,value);
 
-        //Insertyion at heasd of the linked list
+        //Insertion at head of the linked list
         n->next = table[idx];
         table[idx]=n;
 
@@ -102,7 +102,7 @@ string key;
    Node<T>* temp = table[idx];
 
    while(temp!=NULL){
-      if(temp->key == NULL){
+      if(temp->key==key){
             return &temp->value;
       }
       temp = temp->next;
