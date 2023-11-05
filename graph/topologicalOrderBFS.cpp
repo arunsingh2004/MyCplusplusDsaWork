@@ -1,59 +1,67 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
- class Graph{
+class Graph
+{
       int V;
       list<int> *l;
-      public:
-      Graph(int V){
-           this->V=V;
-            l= new list<int>[V];
+
+public:
+      Graph(int V)
+      {
+            this->V = V;
+            l = new list<int>[V];
       }
-       void addEdge(int x ,int y){
-            //directed graph
+      void addEdge(int x, int y)
+      {
+            // directed graph
             l[x].push_back(y);
+      }
+      // complete this method
+      void topological_sort()
+      {
+            vector<int> indegree(V, 0);
+            // Iterate over all the edges to find the right indegree
 
-       }
-       //complete this method
-       void topological_sort(){
-            vector<int> indegree(V,0);
-             //Iterate over all the edges to find the right indegree
+            for (int i = 0; i < V; i++)
+            {
+                  for (auto nbr : l[i])
+                  {
 
-              for(int i =0;i<V; i++){
-                  for(auto nbr : l[i]){
-
-           indegree[i]++;
+                        indegree[i]++;
                   }
-
-              }
-
-              //bfs
-              queue<int> q;
-              //init the q with node having 0 degree
-          for(int i =0;i<V; i++){
-            if(indegree[i]==0){
-                  q.push(i);
             }
-          }
 
-          //start poping
-          while(!q.empty()){
-             int node = q.front();
-             cout<<node<<" ";
-             q.pop();
-             
-             //Iterate over the nbrs of this node and reduce their indegree by 1
-             for(auto nbr: l[node]){
-                  indegree[nbr]--;
-                  if(indegree[nbr]==0){
-                        q.push(nbr);
+            // bfs
+            queue<int> q;
+            // init the q with node having 0 degree
+            for (int i = 0; i < V; i++)
+            {
+                  if (indegree[i] == 0)
+                  {
+                        q.push(i);
                   }
-             }
+            }
 
-          }
-       }
+            // start poping
+            while (!q.empty())
+            {
+                  int node = q.front();
+                  cout << node << " ";
+                  q.pop();
 
- };
+                  // Iterate over the nbrs of this node and reduce their indegree by 1
+                  for (auto nbr : l[node])
+                  {
+                        indegree[nbr]--;
+                        if (indegree[nbr] == 0)
+                        {
+                              q.push(nbr);
+                        }
+                  }
+            }
+      }
+};
 int main()
 {
       Graph g(6);
@@ -64,6 +72,6 @@ int main()
       g.addEdge(1, 4);
       g.addEdge(1, 2);
       g.topological_sort();
-     
-return 0;
+
+      return 0;
 }
